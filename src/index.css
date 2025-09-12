@@ -1,1 +1,17 @@
-@import "tailwindcss"
+@import "tailwindcss";
+
+@layer components {
+  .button {
+    @apply
+    bg-amber-600
+    text-blue-200
+    text-xl
+    px-6
+    py-3
+    rounded
+  }
+  .text {
+    @apply
+    text-amber-300
+  }
+}

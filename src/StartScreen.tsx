@@ -17,7 +17,7 @@ export default function StartScreen({ onStart, setBoard }: StartScreenProps) {
 
   return (
     <div className="flex flex-col items-center justify-center h-full space-y-4">
-      <button className="bg-amber-600 text-blue-200 text-xl px-6 py-3 rounded"
+      <button className="button"
       onClick={createGame}>New Game</button>
     </div>
   )
