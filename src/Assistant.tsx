@@ -10,23 +10,33 @@ export default function Assistant({ board, setBoard }: AssistantProps) {
   const [direction, setDirection] = useState<string | null>(null);
   const [reasoning, setReasoning] = useState<string | null>(null);
   const [suggestedBoard, setSuggestedBoard] = useState<Board | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function ask() {
-    const url: string = import.meta.env.VITE_API_URL
-    const response = await fetch(`${url}/api/evaluate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ board: board.cells })
-    })
-    const data = await response.json()
-    setDirection(data.evaluation?.bestMove)
-    setReasoning(data.evaluation?.reasoning)
-    setSuggestedBoard(data.board)
+    if (isLoading) return
+    setIsLoading(true)
+    try {
+      const url: string = import.meta.env.VITE_API_URL
+      const response = await fetch(`${url}/api/evaluate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ board: board.cells })
+      })
+      const data = await response.json()
+      setDirection(data.evaluation?.bestMove)
+      setReasoning(data.evaluation?.reasoning)
+      setSuggestedBoard(data.board)
+    } catch (error) {
+      console.error("Error fetching AI suggestion:", error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   function accept() {
+    if (isLoading) return
     setBoard(suggestedBoard!)
     setDirection(null)
     setReasoning(null)
@@ -42,7 +52,9 @@ export default function Assistant({ board, setBoard }: AssistantProps) {
           <button className="button" onClick={accept}>Accept</button>
         </div>
       ) : (
-        <button className="button" onClick={ask}>Ask AI</button>
+        <button className="button" onClick={ask} disabled={isLoading}>
+          {isLoading ? "AI is thinking" : "Ask AI"}
+        </button>
       )}
     </div>
   );
