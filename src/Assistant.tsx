@@ -28,6 +28,9 @@ export default function Assistant({ board, setBoard }: AssistantProps) {
 
   function accept() {
     setBoard(suggestedBoard!)
+    setDirection(null)
+    setReasoning(null)
+    setSuggestedBoard(null)
   }
 
   return (
