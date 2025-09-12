@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { Board } from "./types";
 
 interface AssistantProps {
@@ -11,6 +11,12 @@ export default function Assistant({ board, setBoard }: AssistantProps) {
   const [reasoning, setReasoning] = useState<string | null>(null);
   const [suggestedBoard, setSuggestedBoard] = useState<Board | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setDirection(null)
+    setReasoning(null)
+    setSuggestedBoard(null)
+  }, [board]);
 
   async function ask() {
     if (isLoading) return
