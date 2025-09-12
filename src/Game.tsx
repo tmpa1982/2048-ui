@@ -58,7 +58,7 @@ export default function Game({ game, board, setBoard }: GameProps) {
           ))}
         </div>
       ))}
-      <Assistant board={board} setBoard={setBoard} />
+      <Assistant board={board} move={move} />
     </div>
   )
 }

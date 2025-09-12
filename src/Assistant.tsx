@@ -3,10 +3,10 @@ import type { Board } from "./types";
 
 interface AssistantProps {
   board: Board
-  setBoard: (board: Board) => void
+  move: (direction: string) => void
 }
 
-export default function Assistant({ board, setBoard }: AssistantProps) {
+export default function Assistant({ board, move }: AssistantProps) {
   const [direction, setDirection] = useState<string | null>(null);
   const [reasoning, setReasoning] = useState<string | null>(null);
   const [suggestedBoard, setSuggestedBoard] = useState<Board | null>(null);
@@ -43,7 +43,8 @@ export default function Assistant({ board, setBoard }: AssistantProps) {
 
   function accept() {
     if (isLoading) return
-    setBoard(suggestedBoard!)
+    if (!direction) return
+    move(direction)
     setDirection(null)
     setReasoning(null)
     setSuggestedBoard(null)
