@@ -22,7 +22,7 @@ export default function Assistant({ board, move }: AssistantProps) {
     if (isLoading) return
     setIsLoading(true)
     try {
-      const url: string = import.meta.env.VITE_API_URL
+      const url: string = import.meta.env.VITE_API_URL || "https://2048-fecwgmdehaf5dyca.eastasia-01.azurewebsites.net"
       const response = await fetch(`${url}/api/evaluate`, {
         method: 'POST',
         headers: {
