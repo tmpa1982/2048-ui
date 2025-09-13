@@ -83,6 +83,7 @@ export default function Assistant({ board, move }: AssistantProps) {
           </button>
           <select className="text bg-blue-950 m-2 border-3 border-gray-600 rounded-md p-1" value={model} onChange={(e) => setModel(e.target.value)}>
             <option>gpt-4o-mini</option>
+            <option>gpt-4o</option>
             <option>gpt-4.1</option>
             <option>gpt-5-chat</option>
           </select>
