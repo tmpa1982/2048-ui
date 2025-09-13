@@ -51,7 +51,7 @@ export default function Assistant({ board, move }: AssistantProps) {
       {direction ? (
         <div className="flex flex-col items-center">
           <p className="text">Direction: {direction}</p>
-          {reasoning && <p className="text">Reasoning: {reasoning}</p>}
+          {reasoning && <p className="text-xs text-gray-400 p-2">{reasoning}</p>}
           <button className="button" onClick={accept}>Accept</button>
         </div>
       ) : (
