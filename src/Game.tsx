@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Award, Skull } from 'lucide-react'
+import { Award, Skull, Loader } from 'lucide-react'
 import GameBoard from './GameBoard'
 import type { Board } from './types'
 import Assistant from './Assistant'
@@ -14,6 +14,7 @@ type GameProps = {
 export default function Game({ game, board, setBoard }: GameProps) {
   const [isLosing, setIsLosing] = useState<boolean>(false)
   const [isWinning, setIsWinning] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     const keyPressed = async (e: KeyboardEvent) => {
@@ -43,17 +44,26 @@ export default function Game({ game, board, setBoard }: GameProps) {
   async function move(direction: string) {
     if (isLosing) return
     if (isWinning) return
-    const response = await fetch(`${url}/api/game/${game}/move`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ direction })
-    })
-    const data = await response.json()
-    setBoard(data.board)
-    setIsLosing(data.isLosing)
-    setIsWinning(data.isWinning)
+    if (isLoading) return
+
+    setIsLoading(true)
+    try {
+      const response = await fetch(`${url}/api/game/${game}/move`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ direction })
+      })
+      const data = await response.json()
+      setBoard(data.board)
+      setIsLosing(data.isLosing)
+      setIsWinning(data.isWinning)
+    } catch (error) {
+      console.error(`Error in making ${direction} move: ${error}`)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -67,6 +77,8 @@ export default function Game({ game, board, setBoard }: GameProps) {
       <div className="flex items-center justify-center h-full space-y-4 gap-2 text p-2">
         <Award />You won!
       </div>
+      ) : isLoading ? (
+        <div className="text flex items-center justify-center p-2 gap-2"><Loader  className="animate-spin" />Loading</div>
       ) : (
         <Assistant board={board} move={move} />
       )}
