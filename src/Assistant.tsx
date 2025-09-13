@@ -14,8 +14,7 @@ export default function Assistant({ board, move }: AssistantProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setDirection(null)
-    setReasoning(null)
+    reset()
   }, [board]);
 
   async function ask() {
@@ -43,8 +42,7 @@ export default function Assistant({ board, move }: AssistantProps) {
     if (isLoading) return
     if (!direction) return
     move(direction)
-    setDirection(null)
-    setReasoning(null)
+    reset()
   }
 
   function selectDirection(direction: string) {
@@ -54,6 +52,11 @@ export default function Assistant({ board, move }: AssistantProps) {
       case 'UP': return <CircleArrowUp />
       case 'DOWN': return <CircleArrowDown />
     }
+  }
+
+  function reset() {
+    setDirection(null)
+    setReasoning(null)
   }
 
   return (
