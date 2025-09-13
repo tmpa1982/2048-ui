@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Bot, Loader } from "lucide-react"
 import type { Board } from "./types";
 import url from './apiUrl'
 
@@ -55,8 +56,8 @@ export default function Assistant({ board, move }: AssistantProps) {
           <button className="button" onClick={accept}>Accept</button>
         </div>
       ) : (
-        <button className="button" onClick={ask} disabled={isLoading}>
-          {isLoading ? "AI is thinking" : "Ask AI"}
+        <button className="button flex items-center justify-center gap-2 w-48" onClick={ask} disabled={isLoading}>
+          {isLoading ? <><Loader />Thinking</> : <><Bot />Ask AI</>}
         </button>
       )}
     </div>
