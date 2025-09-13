@@ -49,8 +49,7 @@ export default function Game({ game, board, setBoard }: GameProps) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <p className="text p-8">Game ID: {game}</p>
+    <div className="p-4 flex flex-col items-center justify-center max-h-full overflow-y-auto">
       <GameBoard board={board} />
       <Assistant board={board} move={move} />
     </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Bot, Loader, CircleArrowLeft, CircleArrowRight, CircleArrowUp, CircleArrowDown } from "lucide-react"
 import type { Board } from "./types";
 import url from './apiUrl'
+import GameBoard from "./GameBoard";
 
 interface AssistantProps {
   board: Board
@@ -12,6 +13,7 @@ export default function Assistant({ board, move }: AssistantProps) {
   const [direction, setDirection] = useState<string | null>(null);
   const [reasoning, setReasoning] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [suggestedBoard, setSuggestedBoard] = useState<Board | null>(null)
 
   useEffect(() => {
     reset()
@@ -31,6 +33,7 @@ export default function Assistant({ board, move }: AssistantProps) {
       const data = await response.json()
       setDirection(data.evaluation?.bestMove)
       setReasoning(data.evaluation?.reasoning)
+      setSuggestedBoard(data.board)
     } catch (error) {
       console.error("Error fetching AI suggestion:", error)
     } finally {
@@ -57,6 +60,7 @@ export default function Assistant({ board, move }: AssistantProps) {
   function reset() {
     setDirection(null)
     setReasoning(null)
+    setSuggestedBoard(null)
   }
 
   return (
@@ -65,6 +69,7 @@ export default function Assistant({ board, move }: AssistantProps) {
         <div className="flex flex-col items-center">
           <button className="button" onClick={accept}>{selectDirection(direction)}Accept</button>
           {reasoning && <p className="text-xs text-gray-400 p-2">{reasoning}</p>}
+          {suggestedBoard && <GameBoard board={suggestedBoard} />}
         </div>
       ) : (
         <button className="button" onClick={ask} disabled={isLoading}>
