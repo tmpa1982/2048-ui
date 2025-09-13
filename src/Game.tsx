@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import Cell from './Cell'
+import GameBoard from './GameBoard'
 import type { Board } from './types'
 import Assistant from './Assistant'
 import url from './apiUrl'
@@ -51,13 +51,7 @@ export default function Game({ game, board, setBoard }: GameProps) {
   return (
     <div className="flex flex-col items-center justify-center">
       <p className="text p-8">Game ID: {game}</p>
-      {board.cells.map((row, rowIndex) => (
-        <div key={rowIndex} className="flex justify-center items-center">
-          {row.map((cell, cellIndex) => (
-            <Cell value={cell} key={cellIndex} />
-          ))}
-        </div>
-      ))}
+      <GameBoard board={board} />
       <Assistant board={board} move={move} />
     </div>
   )
