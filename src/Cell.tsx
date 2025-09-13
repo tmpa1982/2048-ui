@@ -4,7 +4,7 @@ interface CellProps {
 
 function selectColors(value: string): string {
   switch (value) {
-    case 'EMPTY': return 'bg-blue-800'
+    case 'EMPTY': return 'bg-blue-900'
     case 'V2': return 'bg-amber-950 text-gray-100'
     case 'V4': return 'bg-amber-900 text-gray-200'
     case 'V8': return 'bg-amber-800 text-gray-300'

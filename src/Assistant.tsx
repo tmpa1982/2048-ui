@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Bot, Check, Loader2, CircleArrowLeft, CircleArrowRight, CircleArrowUp, CircleArrowDown } from "lucide-react"
+import { Bot, Loader, CircleArrowLeft, CircleArrowRight, CircleArrowUp, CircleArrowDown } from "lucide-react"
 import type { Board } from "./types";
 import url from './apiUrl'
 
@@ -60,12 +60,12 @@ export default function Assistant({ board, move }: AssistantProps) {
     <div className="p-4">
       {direction ? (
         <div className="flex flex-col items-center">
-          <button className="button w-48" onClick={accept}>{selectDirection(direction)}Accept</button>
+          <button className="button" onClick={accept}>{selectDirection(direction)}Accept</button>
           {reasoning && <p className="text-xs text-gray-400 p-2">{reasoning}</p>}
         </div>
       ) : (
-        <button className="button w-48" onClick={ask} disabled={isLoading}>
-          {isLoading ? <><Loader2 className="animate-spin" />Thinking</> : <><Bot />Ask AI</>}
+        <button className="button" onClick={ask} disabled={isLoading}>
+          {isLoading ? <><Loader className="animate-spin" />Thinking</> : <><Bot />Ask AI</>}
         </button>
       )}
     </div>
