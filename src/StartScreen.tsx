@@ -1,4 +1,5 @@
-import { Play } from 'lucide-react'
+import { useState } from 'react'
+import { Loader, Play } from 'lucide-react'
 import type { Board } from "./types"
 import url from './apiUrl'
 
@@ -8,18 +9,27 @@ interface StartScreenProps {
 }
 
 export default function StartScreen({ onStart, setBoard }: StartScreenProps) {
+  const [isLoading, setIsLoading] = useState(false)
   const createGame = async () => {
     console.log(url)
-    const response = await fetch(`${url}/api/game`, { method: 'POST' })
-    const data = await response.json()
-    onStart(data.id)
-    setBoard(data.board)
+    setIsLoading(true)
+
+    try {
+      const response = await fetch(`${url}/api/game`, { method: 'POST' })
+      const data = await response.json()
+      onStart(data.id)
+      setBoard(data.board)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
     <div className="flex flex-col items-center justify-center h-full space-y-4">
       <button className="button"
-      onClick={createGame}><Play />New Game</button>
+      onClick={createGame}>{isLoading ? <><Loader className="animate-spin" />Loading</> : <><Play />New Game</>}</button>
     </div>
   )
 }
