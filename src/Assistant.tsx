@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import type { Board } from "./types";
+import url from './apiUrl'
 
 interface AssistantProps {
   board: Board
@@ -20,7 +21,6 @@ export default function Assistant({ board, move }: AssistantProps) {
     if (isLoading) return
     setIsLoading(true)
     try {
-      const url: string = import.meta.env.VITE_API_URL || "https://2048-fecwgmdehaf5dyca.eastasia-01.azurewebsites.net"
       const response = await fetch(`${url}/api/evaluate`, {
         method: 'POST',
         headers: {

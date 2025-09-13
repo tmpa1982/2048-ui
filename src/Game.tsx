@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import Cell from './Cell'
 import type { Board } from './types'
 import Assistant from './Assistant'
+import url from './apiUrl'
 
 type GameProps = {
   game: string
@@ -36,7 +37,6 @@ export default function Game({ game, board, setBoard }: GameProps) {
   }, [])
 
   async function move(direction: string) {
-    const url: string = import.meta.env.VITE_API_URL
     const response = await fetch(`${url}/api/game/${game}/move`, {
       method: 'POST',
       headers: {

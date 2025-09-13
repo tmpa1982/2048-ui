@@ -1,4 +1,5 @@
 import type { Board } from "./types"
+import url from './apiUrl'
 
 interface StartScreenProps {
   onStart: (gameId: string) => void
@@ -7,7 +8,6 @@ interface StartScreenProps {
 
 export default function StartScreen({ onStart, setBoard }: StartScreenProps) {
   const createGame = async () => {
-    const url: string = import.meta.env.VITE_API_URL || "https://2048-fecwgmdehaf5dyca.eastasia-01.azurewebsites.net"
     console.log(url)
     const response = await fetch(`${url}/api/game`, { method: 'POST' })
     const data = await response.json()
