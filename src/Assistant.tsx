@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Bot, Loader, CircleArrowLeft, CircleArrowRight, CircleArrowUp, CircleArrowDown } from "lucide-react"
+import { Bot, Loader, CircleArrowLeft, CircleArrowRight, CircleArrowUp, CircleArrowDown, CircleX } from "lucide-react"
 import type { Board } from "./types";
 import url from './apiUrl'
 import GameBoard from "./GameBoard";
@@ -14,6 +14,7 @@ export default function Assistant({ board, move }: AssistantProps) {
   const [reasoning, setReasoning] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [suggestedBoard, setSuggestedBoard] = useState<Board | null>(null)
+  const [model, setModel] = useState("gpt-4o-mini")
 
   useEffect(() => {
     reset()
@@ -22,13 +23,14 @@ export default function Assistant({ board, move }: AssistantProps) {
   async function ask() {
     if (isLoading) return
     setIsLoading(true)
+    console.log(model)
     try {
       const response = await fetch(`${url}/api/evaluate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ board: board.cells })
+        body: JSON.stringify({ board: board.cells, model })
       })
       const data = await response.json()
       setDirection(data.evaluation?.bestMove)
@@ -67,14 +69,24 @@ export default function Assistant({ board, move }: AssistantProps) {
     <div className="p-4">
       {direction ? (
         <div className="flex flex-col items-center">
-          <button className="button" onClick={accept}>{selectDirection(direction)}Accept</button>
+          <div className="flex gap-2">
+            <button className="button" onClick={accept}>{selectDirection(direction)}Accept</button>
+            <button className="button" onClick={reset}>< CircleX />Cancel</button>
+          </div>
           {reasoning && <p className="text-xs text-gray-400 p-2">{reasoning}</p>}
           {suggestedBoard && <GameBoard board={suggestedBoard} />}
         </div>
       ) : (
-        <button className="button" onClick={ask} disabled={isLoading}>
-          {isLoading ? <><Loader className="animate-spin" />Thinking</> : <><Bot />Ask AI</>}
-        </button>
+        <div className="flex flex-col items-center">
+          <button className="button" onClick={ask} disabled={isLoading}>
+            {isLoading ? <><Loader className="animate-spin" />Thinking</> : <><Bot />Ask AI</>}
+          </button>
+          <select className="text bg-blue-950 m-2 border-3 border-gray-600 rounded-md p-1" value={model} onChange={(e) => setModel(e.target.value)}>
+            <option>gpt-4o-mini</option>
+            <option>gpt-4.1</option>
+            <option>gpt-5-chat</option>
+          </select>
+        </div>
       )}
     </div>
   );
