@@ -9,13 +9,11 @@ interface AssistantProps {
 export default function Assistant({ board, move }: AssistantProps) {
   const [direction, setDirection] = useState<string | null>(null);
   const [reasoning, setReasoning] = useState<string | null>(null);
-  const [suggestedBoard, setSuggestedBoard] = useState<Board | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setDirection(null)
     setReasoning(null)
-    setSuggestedBoard(null)
   }, [board]);
 
   async function ask() {
@@ -33,7 +31,6 @@ export default function Assistant({ board, move }: AssistantProps) {
       const data = await response.json()
       setDirection(data.evaluation?.bestMove)
       setReasoning(data.evaluation?.reasoning)
-      setSuggestedBoard(data.board)
     } catch (error) {
       console.error("Error fetching AI suggestion:", error)
     } finally {
@@ -47,7 +44,6 @@ export default function Assistant({ board, move }: AssistantProps) {
     move(direction)
     setDirection(null)
     setReasoning(null)
-    setSuggestedBoard(null)
   }
 
   return (

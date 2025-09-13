@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './App.css'
-import Game from './Game';
-import StartScreen from './StartScreen';
+import Game from './Game'
+import StartScreen from './StartScreen'
+import type { Board } from "./types"
 
 function App() {
   const [game, setGame] = useState<string | null>(null);
@@ -9,7 +10,7 @@ function App() {
 
   return (
     <div className="bg-blue-950 h-screen">
-      {game && <Game game={game} board={board} setBoard={setBoard} /> || <StartScreen onStart={setGame} setBoard={setBoard} />}
+      {game && board && <Game game={game} board={board} setBoard={setBoard} /> || <StartScreen onStart={setGame} setBoard={setBoard} />}
     </div>
   )
 }
