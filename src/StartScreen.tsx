@@ -18,7 +18,7 @@ export default function StartScreen({ onStart, setBoard }: StartScreenProps) {
 
   return (
     <div className="flex flex-col items-center justify-center h-full space-y-4">
-      <button className="button flex items-center gap-2"
+      <button className="button"
       onClick={createGame}><Play />New Game</button>
     </div>
   )

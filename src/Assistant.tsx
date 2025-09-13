@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Bot, Loader } from "lucide-react"
+import { Bot, Check, Loader2, CircleArrowLeft, CircleArrowRight, CircleArrowUp, CircleArrowDown } from "lucide-react"
 import type { Board } from "./types";
 import url from './apiUrl'
 
@@ -47,17 +47,25 @@ export default function Assistant({ board, move }: AssistantProps) {
     setReasoning(null)
   }
 
+  function selectDirection(direction: string) {
+    switch (direction) {
+      case 'LEFT': return <CircleArrowLeft />
+      case 'RIGHT': return <CircleArrowRight />
+      case 'UP': return <CircleArrowUp />
+      case 'DOWN': return <CircleArrowDown />
+    }
+  }
+
   return (
     <div className="p-4">
       {direction ? (
         <div className="flex flex-col items-center">
-          <p className="text">Direction: {direction}</p>
+          <button className="button w-48" onClick={accept}>{selectDirection(direction)}Accept</button>
           {reasoning && <p className="text-xs text-gray-400 p-2">{reasoning}</p>}
-          <button className="button" onClick={accept}>Accept</button>
         </div>
       ) : (
-        <button className="button flex items-center justify-center gap-2 w-48" onClick={ask} disabled={isLoading}>
-          {isLoading ? <><Loader />Thinking</> : <><Bot />Ask AI</>}
+        <button className="button w-48" onClick={ask} disabled={isLoading}>
+          {isLoading ? <><Loader2 className="animate-spin" />Thinking</> : <><Bot />Ask AI</>}
         </button>
       )}
     </div>
