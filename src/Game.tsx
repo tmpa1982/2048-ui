@@ -30,9 +30,9 @@ export default function Game({ game, board, setBoard }: GameProps) {
       }
     }
 
-    document.addEventListener('keypress', keyPressed)
+    document.addEventListener('keyup', keyPressed)
     return () => {
-      document.removeEventListener('keypress', keyPressed)
+      document.removeEventListener('keyup', keyPressed)
     }
   }, [])
 
