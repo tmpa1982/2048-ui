@@ -1,3 +1,4 @@
+import { Play } from 'lucide-react'
 import type { Board } from "./types"
 import url from './apiUrl'
 
@@ -17,8 +18,8 @@ export default function StartScreen({ onStart, setBoard }: StartScreenProps) {
 
   return (
     <div className="flex flex-col items-center justify-center h-full space-y-4">
-      <button className="button"
-      onClick={createGame}>New Game</button>
+      <button className="button flex items-center gap-2"
+      onClick={createGame}><Play />New Game</button>
     </div>
   )
 }
