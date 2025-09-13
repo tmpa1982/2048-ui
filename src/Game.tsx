@@ -12,7 +12,7 @@ type GameProps = {
 
 export default function Game({ game, board, setBoard }: GameProps) {
   useEffect(() => {
-    const keyUp = async (e: KeyboardEvent) => {
+    const keyPressed = async (e: KeyboardEvent) => {
       console.log("Key pressed:", e.key)
       switch (e.key) {
         case 'ArrowLeft':
@@ -30,9 +30,9 @@ export default function Game({ game, board, setBoard }: GameProps) {
       }
     }
 
-    document.addEventListener('keyup', keyUp)
+    document.addEventListener('keypress', keyPressed)
     return () => {
-      document.removeEventListener('keyup', keyUp)
+      document.removeEventListener('keypress', keyPressed)
     }
   }, [])
 
