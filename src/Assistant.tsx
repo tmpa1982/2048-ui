@@ -14,7 +14,7 @@ export default function Assistant({ board, move }: AssistantProps) {
   const [reasoning, setReasoning] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [suggestedBoard, setSuggestedBoard] = useState<Board | null>(null)
-  const [model, setModel] = useState("gpt-4o-mini")
+  const [model, setModel] = useState("gpt-5-chat")
 
   useEffect(() => {
     reset()
