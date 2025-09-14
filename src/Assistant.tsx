@@ -14,7 +14,7 @@ export default function Assistant({ board, move }: AssistantProps) {
   const [reasoning, setReasoning] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [suggestedBoard, setSuggestedBoard] = useState<Board | null>(null)
-  const [model, setModel] = useState("gpt-5-chat")
+  const [model, setModel] = useState("o4-mini")
 
   useEffect(() => {
     reset()
@@ -82,6 +82,7 @@ export default function Assistant({ board, move }: AssistantProps) {
             {isLoading ? <><Loader className="animate-spin" />Thinking</> : <><Bot />Ask AI</>}
           </button>
           <select className="text bg-blue-950 m-2 border-3 border-gray-600 rounded-md p-1" value={model} onChange={(e) => setModel(e.target.value)}>
+            <option>o4-mini</option>
             <option>gpt-4o-mini</option>
             <option>gpt-4o</option>
             <option>gpt-4.1</option>
