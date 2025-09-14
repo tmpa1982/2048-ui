@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Award, Skull, Loader } from 'lucide-react'
 import GameBoard from './GameBoard'
 import type { Board } from './types'
@@ -15,6 +15,31 @@ export default function Game({ game, board, setBoard }: GameProps) {
   const [isLosing, setIsLosing] = useState<boolean>(false)
   const [isWinning, setIsWinning] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const move = useCallback(async (direction: string) => {
+    if (isLosing) return
+    if (isWinning) return
+    if (isLoading) return
+
+    setIsLoading(true)
+    try {
+      const response = await fetch(`${url}/api/game/${game}/move`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ direction })
+      })
+      const data = await response.json()
+      setBoard(data.board)
+      setIsLosing(data.isLosing)
+      setIsWinning(data.isWinning)
+    } catch (error) {
+      console.error(`Error in making ${direction} move: ${error}`)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [isLosing, isWinning, game, isLoading, setBoard])
 
   useEffect(() => {
     const keyPressed = async (e: KeyboardEvent) => {
@@ -39,32 +64,7 @@ export default function Game({ game, board, setBoard }: GameProps) {
     return () => {
       document.removeEventListener('keyup', keyPressed)
     }
-  }, [])
-
-  async function move(direction: string) {
-    if (isLosing) return
-    if (isWinning) return
-    if (isLoading) return
-
-    setIsLoading(true)
-    try {
-      const response = await fetch(`${url}/api/game/${game}/move`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ direction })
-      })
-      const data = await response.json()
-      setBoard(data.board)
-      setIsLosing(data.isLosing)
-      setIsWinning(data.isWinning)
-    } catch (error) {
-      console.error(`Error in making ${direction} move: ${error}`)
-    } finally {
-      setIsLoading(false)
-    }
-  }
+  }, [move])
 
   return (
     <div className="p-4 flex flex-col items-center justify-center max-h-full overflow-y-auto">
