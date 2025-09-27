@@ -16,15 +16,22 @@ function selectColors(value: string): string {
     case 'V512': return 'bg-amber-200'
     case 'V1024': return 'bg-amber-100'
     case 'V2048': return 'bg-amber-50'
+    case 'OBSTACLE': return 'bg-gray-600'
     default: return 'bg-amber-800'
   }
+}
+
+function getCellValue(value: string): string {
+  if (value === 'EMPTY') return ''
+  if (value === 'OBSTACLE') return 'X'
+  return value.substring(1)
 }
 
 export default function Cell({ value }: CellProps) {
   const colors = selectColors(value)
   return (
     <div className={`w-16 h-16 ${colors} border border-gray-300 flex items-center justify-center font-bold`}>
-      {value === 'EMPTY' ? '' : value.substring(1)}
+      {getCellValue(value)}
     </div>
   )
 }
